@@ -1,30 +1,40 @@
-import React from 'react';
-// import DateData from './components/DateData';
-// import Counter from './components/Counter';
-// import Effect from './components/Effect';
-// import DataFech from './components/DataFech';
-// import Interval from './components/Interval';
-// import MyComponent from './components/MyComponent';
-// import InputElement from './components/InputElement';
-// import CurrentCount from './components/CurrentCount';
-// import CountReducer from './components/CountReducer';
-import Error from './components/Error';
+import React, {useReducer} from 'react';
+import Header from './Header';
+import Body from './Body';
+import Form from './Form';
+
+const initialState = {
+  name: 'to-R Media'
+}
+
+const reducer = (state, action) => {
+  switch(action.type){
+    case 'CHANGE_NAME':
+      return{
+        ...state, name: action.payload
+      };
+    default:
+      return state
+  }
+}
+
+export const SiteContext = React.createContext();
+
+const SiteProvider = ({children}) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  return <SiteContext.Provider value={{state,dispatch}}>
+    {children}
+  </SiteContext.Provider>
+}
 
 const App = () => {
-  return (
-    <React.Fragment>
-      {/* <Counter/> */}
-      {/* <Effect/> */}
-      {/* <DataFech/> */}
-      {/* <Interval/> */}
-      {/* <DateData timestamp={Date.now()}/> */}
-      {/* <MyComponent/> */}
-      {/* <InputElement/> */}
-      {/* <CurrentCount/> */}
-      {/* <CountReducer/> */}
-      <Error/>
-    </React.Fragment>
-  );
+  return(
+    <SiteProvider>
+      <Header/>
+      <Body/>
+      <Form/>
+    </SiteProvider>
+  )
 };
 
 export default App;
